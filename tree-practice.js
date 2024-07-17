@@ -170,54 +170,56 @@ function findMaxBT (rootNode) {
 }
 
 // RECURSIVE SOLUTION
-// function getHeight (rootNode) {
-//     // edge case - empty tree
-//     if(!rootNode) return -1;
-//     // edge case - root node w no branches
-//     if (!rootNode.left && !rootNode.right) return 0;
-//     // if there is a left or right node, return that level + recurse while counting the taller side
-//     return 1 + Math.max(getHeight(rootNode.left), getHeight(rootNode.right));
-// }
-
-// BREADTH FIRST (DEQUEUE) SOLUTION - ask help
 function getHeight (rootNode) {
-    const queue = [rootNode];   // start with root
-    let levels = 0;
+    // edge case - empty tree
     if(!rootNode) return -1;
-
-    // dequeue an entire row at a time, and enqueue any of their children
-    while(queue.length) {
-        // print and remove node (print optional)
-        let node = queue.shift();   // remove first item in queue
-        // if(!node.left && !node.right) return 0;
-        console.log(node.val);
-
-        if(node.left) {   // if left node exists, add to queue (back of line)
-            queue.push(node.left);
-        }   // if right node exists, add to queue (back of line)
-        if(node.right) {
-            queue.push(node.right);
-        }
-        // only count once per level jump
-        if(node.left || node.right) levels++;
-    }
-    return levels;
+    // edge case - root node w no branches
+    if (!rootNode.left && !rootNode.right) return 0;
+    // if there is a left or right node, return that level + recurse while counting the taller side
+    return 1 + Math.max(getHeight(rootNode.left), getHeight(rootNode.right));
 }
 
-// local
-console.log(bstRoot);
-console.log(getHeight(null)) // -1
-console.log(getHeight(bstRoot.right.right)) // 0
-console.log(getHeight(bstRoot)); // 2
-console.log(getHeight(bstRoot.left)) // 1
-console.log(getHeight(bstRootUnbalanced.right)) // 5
-console.log(getHeight(bstRootBig.left)) // 3
-console.log(getHeight(bstRootBig.right)) // 4
+// BREADTH FIRST (DEQUEUE) SOLUTION - alternate solution
+// function getHeight (rootNode) {
+//     let queue = [rootNode];   // start with root
+//     let levels = -1;
+//     if(!rootNode) return -1;  // edge case, empty tree
 
-console.log(getHeight(btRoot.left)) // 1
-console.log(getHeight(btRootUnbalanced.right)) // 5
-console.log(getHeight(btRootBig.left)) // 3
-console.log(getHeight(btRootBig.right)) // 4
+//     // dequeue an entire row at a time, and enqueue any of their children
+//     while(queue.length) {
+//         // print and remove node (print optional)
+//         // let node = queue.shift();   // remove 1 node if doing an operation for each node
+//         let level = [...queue];    // instead we need to do operation for each level
+//         queue = [];            // then reset the queue to empty - dequeuing the level
+//         // console.log(level);
+
+//         level.forEach(node => {     // loop through level array and enqueue children
+//             if(node.left) {   // if left node exists, add to queue (back of line)
+//                 queue.push(node.left);
+//             }   // if right node exists, add to queue (back of line)
+//             if(node.right) {
+//                 queue.push(node.right);
+//             }
+//         })  // only count once per level jump
+//         levels++;
+//     }
+//     return levels;
+// }
+
+// local
+// console.log(bstRoot);
+// console.log(getHeight(null)) // -1
+// console.log(getHeight(bstRoot.right.right)) // 0
+// console.log(getHeight(bstRoot)); // 2
+// console.log(getHeight(bstRoot.left)) // 1
+// console.log(getHeight(bstRootUnbalanced.right)) // 5
+// console.log(getHeight(bstRootBig.left)) // 3
+// console.log(getHeight(bstRootBig.right)) // 4
+
+// console.log(getHeight(btRoot.left)) // 1
+// console.log(getHeight(btRootUnbalanced.right)) // 5
+// console.log(getHeight(btRootBig.left)) // 3
+// console.log(getHeight(btRootBig.right)) // 4
 
 
 
@@ -245,7 +247,7 @@ function countNodes (rootNode) {   // depth first traversal - pop()
         // when doing depth / pop, add right first so left pops off first
         if(node.right) {
             stack.push(node.right);
-            nodes++;
+            nodes++;    // count each node
         }
         if(node.left) {   // if left node exists, push to end / top of stack
             stack.push(node.left);
